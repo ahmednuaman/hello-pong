@@ -1,4 +1,9 @@
 class Game
+  courtLineWidth = 3
+  paddleHeight = 60
+  paddleWidth = 10
+  padding = 20
+
   constructor: (container) ->
     @addCanvas container
 
@@ -26,20 +31,51 @@ class Game
 
   addCourt: () ->
     half = @canvas.width * .5
-    width = 3
-    x1 = half - width
-    x2 = half + width
-    console.log x1, x2
+    x1 = half - courtLineWidth
+    x2 = half + courtLineWidth
     @court = new createjs.Shape()
     @courtGFX = @court.graphics
-    @courtGFX.setStrokeStyle width
+    @courtGFX.setStrokeStyle courtLineWidth
     @courtGFX.beginStroke '#999999'
     @courtGFX.moveTo x1, 0
     @courtGFX.lineTo x1, @canvas.height
     @courtGFX.moveTo x2, @canvas.height
     @courtGFX.lineTo x2, 0
+    @courtGFX.endStroke()
 
     @stage.addChild @court
     @stage.update()
+
+    @addLeftPaddle()
+
+  addLeftPaddle: () ->
+    @leftPaddle = @createPaddle()
+    @leftPaddle.x = padding
+    @leftPaddle.y = padding
+
+    @stage.addChild @leftPaddle
+    @stage.update()
+
+    @addRightPaddle()
+
+  addRightPaddle: () ->
+    @rightPaddle = @createPaddle()
+    @rightPaddle.x = @canvas.width - paddleWidth - padding
+    @rightPaddle.y = padding
+
+    @stage.addChild @rightPaddle
+    @stage.update()
+
+  createPaddle: () ->
+    paddle = new createjs.Shape()
+    paddleGFX = paddle.graphics
+    paddleGFX.beginFill '#ffffff'
+    paddleGFX.moveTo 0, 0
+    paddleGFX.lineTo paddleWidth, 0
+    paddleGFX.lineTo paddleWidth, paddleHeight
+    paddleGFX.lineTo 0, paddleHeight
+    paddleGFX.endFill()
+
+    paddle
 
 game = new Game 'container'
