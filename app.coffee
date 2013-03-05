@@ -7,8 +7,8 @@ class Game
   addCanvas: (container) ->
     container = document.getElementById container
     @canvas = document.createElement 'canvas'
-    @canvas.height = 400
-    @canvas.width = 800
+    @canvas.height = 600
+    @canvas.width = 900
     @stage = new createjs.Stage @canvas
 
     container.appendChild @canvas
