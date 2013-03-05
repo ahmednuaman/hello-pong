@@ -12,6 +12,8 @@ class Game
     @canvas = document.createElement 'canvas'
     @canvas.height = 600
     @canvas.width = 900
+    @paddingX = @canvas.width - padding
+    @paddingY = @canvas.height - padding - paddleHeight
     @stage = new createjs.Stage @canvas
 
     container.appendChild @canvas
@@ -60,11 +62,13 @@ class Game
 
   addRightPaddle: () ->
     @rightPaddle = @createPaddle()
-    @rightPaddle.x = @canvas.width - paddleWidth - padding
+    @rightPaddle.x = @paddingX - paddleWidth
     @rightPaddle.y = padding
 
     @stage.addChild @rightPaddle
     @stage.update()
+
+    @enableControls()
 
   createPaddle: () ->
     paddle = new createjs.Shape()
@@ -77,5 +81,24 @@ class Game
     paddleGFX.endFill()
 
     paddle
+
+  enableControls: () ->
+    that = @
+
+    document.onkeydown = (event) ->
+      that.handleOnKeyDown.apply that, arguments
+
+  handleOnKeyDown: (event) ->
+    switch event.keyCode
+      when 38 then @moveLeftPaddleBy -5
+      when 40 then @moveLeftPaddleBy 5
+
+  moveLeftPaddleBy: (y) ->
+    target = @leftPaddle.y + y
+
+    if target >= padding and target <= @paddingY
+      @leftPaddle.y = target
+
+      @stage.update()
 
 game = new Game 'container'
