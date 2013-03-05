@@ -1,8 +1,6 @@
 class Game
-
   constructor: (container) ->
     @addCanvas container
-    @addBackground()
 
   addCanvas: (container) ->
     container = document.getElementById container
@@ -13,6 +11,8 @@ class Game
 
     container.appendChild @canvas
 
+    @addBackground()
+
   addBackground: () ->
     @background = new createjs.Shape()
     @backgroundGFX = @background.graphics
@@ -22,5 +22,24 @@ class Game
     @stage.addChild @background
     @stage.update()
 
+    @addCourt()
+
+  addCourt: () ->
+    half = @canvas.width * .5
+    width = 3
+    x1 = half - width
+    x2 = half + width
+    console.log x1, x2
+    @court = new createjs.Shape()
+    @courtGFX = @court.graphics
+    @courtGFX.setStrokeStyle width
+    @courtGFX.beginStroke '#999999'
+    @courtGFX.moveTo x1, 0
+    @courtGFX.lineTo x1, @canvas.height
+    @courtGFX.moveTo x2, @canvas.height
+    @courtGFX.lineTo x2, 0
+
+    @stage.addChild @court
+    @stage.update()
 
 game = new Game 'container'
