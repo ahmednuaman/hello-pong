@@ -2,8 +2,8 @@ class Game
   ballRadius = 20
   ballStartX = 1
   ballStartY = 1
-  ballStartDirectionX = 10
-  ballStartDirectionY = 10
+  ballStartDirectionX = 7
+  ballStartDirectionY = 7
   courtLineWidth = 3
   paddleHeight = 60
   paddleWidth = 10
@@ -103,8 +103,8 @@ class Game
 
   handleOnKeyDown: (event) ->
     switch event.keyCode
-      when 38 then @moveLeftPaddleBy -5
-      when 40 then @moveLeftPaddleBy 5
+      when 38 then @moveLeftPaddleBy ballStartDirectionY * -1
+      when 40 then @moveLeftPaddleBy ballStartDirectionY
 
   moveLeftPaddleBy: (y) ->
     @movePaddleTo @leftPaddle, @leftPaddle.y + y
@@ -123,6 +123,8 @@ class Game
     ballGFX.beginFill '#ff0000'
     ballGFX.drawCircle 0, 0, ballRadius
     ballGFX.endFill()
+
+    @ballLastY = 0
 
     @stage.addChild @ball
     @stage.update()
@@ -168,8 +170,9 @@ class Game
       @ballDirectionX = @ballDirectionX * -1
 
     if @hasAI
-      @movePaddleTo @rightPaddle, @ball.y
+      @movePaddleTo @rightPaddle, @ballLastY
 
+    @ballLastY = @ball.y
 
     @stage.update()
 
