@@ -58,8 +58,9 @@ Game = (function() {
     this.stage.addChild(background);
     this.stage.update();
     if (!this.interactive) {
-      return this.addCourt();
+      this.addCourt();
     }
+    return 'Added background';
   };
 
   Game.prototype.addCourt = function() {
@@ -79,8 +80,9 @@ Game = (function() {
     this.stage.addChild(this.court);
     this.stage.update();
     if (!this.interactive) {
-      return this.addScores();
+      this.addScores();
     }
+    return 'Added court lines';
   };
 
   Game.prototype.addScores = function() {
@@ -101,8 +103,9 @@ Game = (function() {
     this.stage.addChild(this.scoreAITxt);
     this.stage.update();
     if (!this.interactive) {
-      return this.addLeftPaddle();
+      this.addLeftPaddle();
     }
+    return 'Added scores text';
   };
 
   Game.prototype.addLeftPaddle = function() {
@@ -113,8 +116,9 @@ Game = (function() {
     this.stage.addChild(this.leftPaddle);
     this.stage.update();
     if (!this.interactive) {
-      return this.addRightPaddle();
+      this.addRightPaddle();
     }
+    return 'Added left (player) paddle';
   };
 
   Game.prototype.addRightPaddle = function() {
@@ -124,8 +128,9 @@ Game = (function() {
     this.stage.addChild(this.rightPaddle);
     this.stage.update();
     if (!this.interactive) {
-      return this.enableControls();
+      this.enableControls();
     }
+    return 'Added right (AI/computer) paddle';
   };
 
   Game.prototype.createPaddle = function() {
@@ -148,8 +153,9 @@ Game = (function() {
       return that.handleOnKeyDown.apply(that, arguments);
     };
     if (!this.interactive) {
-      return this.addBall();
+      this.addBall();
     }
+    return 'Enabled player controls';
   };
 
   Game.prototype.handleOnKeyDown = function(event) {
@@ -185,8 +191,9 @@ Game = (function() {
     this.stage.addChildAt(this.ball, (this.stage.getChildIndex(this.court)) + 1);
     this.stage.update();
     if (!this.interactive) {
-      return this.startBallMovement();
+      this.startBallMovement();
     }
+    return 'Added ball';
   };
 
   Game.prototype.startBallMovement = function() {
@@ -196,12 +203,14 @@ Game = (function() {
       return that.handleTickerTick.apply(that, arguments);
     });
     if (!this.interactive) {
-      return this.addAI();
+      this.addAI();
     }
+    return 'Started ball movement';
   };
 
   Game.prototype.addAI = function() {
-    return this.hasAI = true;
+    this.hasAI = true;
+    return 'Added AI to computer opponent';
   };
 
   Game.prototype.handleTickerTick = function(event) {
