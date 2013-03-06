@@ -45,6 +45,8 @@ class Game
     if !@interactive
       @addCourt()
 
+    'Added background'
+
   addCourt: () ->
     @canvasHalfWidth = @canvas.width * .5
     x1 = @canvasHalfWidth - courtLineWidth
@@ -64,6 +66,8 @@ class Game
 
     if !@interactive
       @addScores()
+
+    'Added court lines'
 
   addScores: () ->
     @scorePlayerTxt = new createjs.Text
@@ -87,6 +91,8 @@ class Game
     if !@interactive
       @addLeftPaddle()
 
+    'Added scores text'
+
   addLeftPaddle: () ->
     @startY = (@canvas.height - paddleHeight) * .5
     @leftPaddle = @createPaddle()
@@ -99,6 +105,8 @@ class Game
     if !@interactive
       @addRightPaddle()
 
+    'Added left (player) paddle'
+
   addRightPaddle: () ->
     @rightPaddle = @createPaddle()
     @rightPaddle.x = @paddingX - paddleWidth
@@ -109,6 +117,8 @@ class Game
 
     if !@interactive
       @enableControls()
+
+    'Added right (AI/computer) paddle'
 
   createPaddle: () ->
     paddle = new createjs.Shape()
@@ -130,6 +140,8 @@ class Game
 
     if !@interactive
       @addBall()
+
+    'Enabled player controls'
 
   handleOnKeyDown: (event) ->
     switch event.keyCode
@@ -162,6 +174,8 @@ class Game
     if !@interactive
       @startBallMovement()
 
+    'Added ball'
+
   startBallMovement: () ->
     that = @
 
@@ -171,8 +185,12 @@ class Game
     if !@interactive
       @addAI()
 
+    'Started ball movement'
+
   addAI: () ->
     @hasAI = true
+
+    'Added AI to computer opponent'
 
   handleTickerTick: (event) ->
     @ball.x = @ball.x + @ballDirectionX
