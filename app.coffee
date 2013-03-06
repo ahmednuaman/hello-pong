@@ -1,7 +1,7 @@
 class Game
   ballRadius = 20
   ballStartX = 1
-  ballStartY = 1
+  ballStartY = ballRadius
   ballStartDirectionX = 7
   ballStartDirectionY = 7
   courtLineWidth = 3
@@ -146,7 +146,7 @@ class Game
     @ball.x = @ball.x + @ballDirectionX
     @ball.y = @ball.y + @ballDirectionY
 
-    if @ball.y < 0 or @ball.y > @limitY
+    if @ball.y < ballRadius or @ball.y > @limitY
       @ballDirectionY = @ballDirectionY * -1
 
     if @ball.x < 0 or @ball.x > @canvas.width
