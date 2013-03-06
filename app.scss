@@ -4,3 +4,17 @@ body {
   margin: 0;
   padding: 0;
 }
+
+#console {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  background: #eee;
+  border-top: 1px solid #ccc;
+  height: 100px;
+  width: 100%;
+}
+
+#console.console {
+  background: #fff;
+}
