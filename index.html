@@ -10,7 +10,7 @@
         <title>Pong!</title>
     </head>
     <body>
-      <div id="container"></div>
+      <div id="game"></div>
       <div id="console"></div>
       <script src="components/EaselJS/lib/easeljs-0.6.0.min.js"></script>
       <script src="components/consolejs/console.min.js"></script>
@@ -18,7 +18,7 @@
       <script>
         var interactive = window.location.hash === '#interactive';
 
-        window.game = new Game('container', interactive);
+        window.game = new Game('game', interactive);
 
         if (interactive) {
           Console('console');
