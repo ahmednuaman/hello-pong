@@ -14,7 +14,18 @@
       <script src="components/TweenJS/lib/tweenjs-0.4.0.min.js"></script>
       <script src="app.js"></script>
       <script>
-        window.game = new Game('container', window.location.hash === '#interactive');
+        var interactive = window.location.hash === '#interactive';
+
+        window.game = new Game('container', interactive);
+
+        if (interactive) {
+          (function(d, t) {
+              var g = d.createElement(t),
+                  s = d.getElementsByTagName(t)[0];
+              g.src = 'https://getfirebug.com/firebug-lite.js#startOpened=true';
+              s.parentNode.insertBefore(g, s);
+          }(document, 'script'));
+        }
       </script>
     </body>
 </html>
