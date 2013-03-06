@@ -1,13 +1,17 @@
 class Game
   ballRadius = 20
+  ballStartX = 1
+  ballStartY = 1
+  ballStartDirectionX = 10
+  ballStartDirectionY = 10
   courtLineWidth = 3
   paddleHeight = 60
   paddleWidth = 10
   padding = 20
 
   constructor: (container) ->
-    @ballDirectionX = 5
-    @ballDirectionY = 5
+    @ballDirectionX = ballStartDirectionX
+    @ballDirectionY = ballStartDirectionY
     @addCanvas container
 
   addCanvas: (container) ->
@@ -56,9 +60,10 @@ class Game
     @addLeftPaddle()
 
   addLeftPaddle: () ->
+    @startY = (@canvas.height - paddleHeight) * .5
     @leftPaddle = @createPaddle()
     @leftPaddle.x = padding
-    @leftPaddle.y = padding
+    @leftPaddle.y = @startY
 
     @stage.addChild @leftPaddle
     @stage.update()
@@ -68,7 +73,7 @@ class Game
   addRightPaddle: () ->
     @rightPaddle = @createPaddle()
     @rightPaddle.x = @paddingX - paddleWidth
-    @rightPaddle.y = padding
+    @rightPaddle.y = @startY
 
     @stage.addChild @rightPaddle
     @stage.update()
@@ -110,6 +115,8 @@ class Game
 
   addBall: () ->
     @ball = new createjs.Shape()
+    @ball.x = ballStartX
+    @ball.y = ballStartY
     ballGFX = @ball.graphics
     ballGFX.beginFill '#ff0000'
     ballGFX.drawCircle 0, 0, ballRadius
@@ -130,8 +137,28 @@ class Game
     @ball.x = @ball.x + @ballDirectionX
     @ball.y = @ball.y + @ballDirectionY
 
-    if @ball.y <= 0 or @ball.y >= @limitY
+    if @ball.y < 0 or @ball.y > @limitY
       @ballDirectionY = @ballDirectionY * -1
+
+    if @ball.x < 0 or @ball.x > @canvas.width
+      @ballDirectionX = ballStartDirectionX
+      @ballDirectionY = ballStartDirectionY
+      @ball.x = ballStartX
+      @ball.y = ballStartY
+
+    @rightPaddlePts = @ball.globalToLocal @rightPaddle.x, @rightPaddle.y
+
+    if @ball.hitTest(@rightPaddlePts.x, @rightPaddlePts.y) or
+    @ball.hitTest(@rightPaddlePts.x, @rightPaddlePts.y + paddleHeight) or
+    @ball.hitTest(@rightPaddlePts.x, @rightPaddlePts.y + paddleHeight * .5)
+      @ballDirectionX = @ballDirectionX * -1
+
+    @leftPaddlePts = @ball.globalToLocal @leftPaddle.x + paddleWidth, @leftPaddle.y
+
+    if @ball.hitTest(@leftPaddlePts.x, @leftPaddlePts.y) or
+    @ball.hitTest(@leftPaddlePts.x, @leftPaddlePts.y + paddleHeight) or
+    @ball.hitTest(@leftPaddlePts.x, @leftPaddlePts.y + paddleHeight * .5)
+      @ballDirectionX = @ballDirectionX * -1
 
 
     @stage.update()
