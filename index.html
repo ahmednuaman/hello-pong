@@ -13,5 +13,8 @@
       <script src="components/EaselJS/lib/easeljs-0.6.0.min.js"></script>
       <script src="components/TweenJS/lib/tweenjs-0.4.0.min.js"></script>
       <script src="app.js"></script>
+      <script>
+        window.game = new Game('container', window.location.hash === '#interactive');
+      </script>
     </body>
 </html>

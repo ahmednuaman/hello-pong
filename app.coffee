@@ -9,7 +9,7 @@ class Game
   paddleWidth = 10
   padding = 20
 
-  constructor: (container) ->
+  constructor: (container, @interactive=false) ->
     @scoreAI = 0
     @scorePlayer = 0
     @hasAI = false
@@ -29,7 +29,8 @@ class Game
 
     container.appendChild @canvas
 
-    @addBackground()
+    if !@interactive
+      @addBackground()
 
   addBackground: () ->
     background = new createjs.Shape()
@@ -41,7 +42,8 @@ class Game
     @stage.addChild background
     @stage.update()
 
-    @addCourt()
+    if !@interactive
+      @addCourt()
 
   addCourt: () ->
     @canvasHalfWidth = @canvas.width * .5
@@ -60,14 +62,21 @@ class Game
     @stage.addChild @court
     @stage.update()
 
-    @addScores()
+    if !@interactive
+      @addScores()
 
   addScores: () ->
-    @scorePlayerTxt = new createjs.Text 'Player: 0', '20px Quantico', '#ffffff'
+    @scorePlayerTxt = new createjs.Text
+    @scorePlayerTxt.color = '#ffffff'
+    @scorePlayerTxt.font = '20px Quantico'
+    @scorePlayerTxt.text = 'Player: 0'
     @scorePlayerTxt.textAlign = 'right'
     @scorePlayerTxt.x = @canvasHalfWidth - padding
     @scorePlayerTxt.y = padding
-    @scoreAITxt = new createjs.Text 'Computer: 0', '20px Quantico', '#ffffff'
+    @scoreAITxt = new createjs.Text
+    @scoreAITxt.color = '#ffffff'
+    @scoreAITxt.font = '20px Quantico'
+    @scoreAITxt.text = 'Computer: 0'
     @scoreAITxt.x = @canvasHalfWidth + padding
     @scoreAITxt.y = padding
 
@@ -75,7 +84,8 @@ class Game
     @stage.addChild @scoreAITxt
     @stage.update()
 
-    @addLeftPaddle()
+    if !@interactive
+      @addLeftPaddle()
 
   addLeftPaddle: () ->
     @startY = (@canvas.height - paddleHeight) * .5
@@ -86,7 +96,8 @@ class Game
     @stage.addChild @leftPaddle
     @stage.update()
 
-    @addRightPaddle()
+    if !@interactive
+      @addRightPaddle()
 
   addRightPaddle: () ->
     @rightPaddle = @createPaddle()
@@ -96,7 +107,8 @@ class Game
     @stage.addChild @rightPaddle
     @stage.update()
 
-    @enableControls()
+    if !@interactive
+      @enableControls()
 
   createPaddle: () ->
     paddle = new createjs.Shape()
@@ -116,7 +128,8 @@ class Game
     document.onkeydown = (event) ->
       that.handleOnKeyDown.apply that, arguments
 
-    @addBall()
+    if !@interactive
+      @addBall()
 
   handleOnKeyDown: (event) ->
     switch event.keyCode
@@ -146,7 +159,8 @@ class Game
     @stage.addChildAt @ball, (@stage.getChildIndex @court) + 1
     @stage.update()
 
-    @startBallMovement()
+    if !@interactive
+      @startBallMovement()
 
   startBallMovement: () ->
     that = @
@@ -154,7 +168,8 @@ class Game
     createjs.Ticker.addEventListener 'tick', (event) ->
       that.handleTickerTick.apply that, arguments
 
-    @addAI()
+    if !@interactive
+      @addAI()
 
   addAI: () ->
     @hasAI = true
@@ -200,6 +215,3 @@ class Game
     @ballLastY = @ball.y
 
     @stage.update()
-
-
-game = new Game 'container'
