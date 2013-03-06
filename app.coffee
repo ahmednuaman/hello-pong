@@ -10,6 +10,7 @@ class Game
   padding = 20
 
   constructor: (container) ->
+    @hasAI = false
     @ballDirectionX = ballStartDirectionX
     @ballDirectionY = ballStartDirectionY
     @addCanvas container
@@ -106,10 +107,11 @@ class Game
       when 40 then @moveLeftPaddleBy 5
 
   moveLeftPaddleBy: (y) ->
-    target = @leftPaddle.y + y
+    @movePaddleTo @leftPaddle, @leftPaddle.y + y
 
-    if target >= padding and target <= @paddingY
-      @leftPaddle.y = target
+  movePaddleTo: (paddle, y) ->
+    if y >= padding and y <= @paddingY
+      paddle.y = y
 
       @stage.update()
 
@@ -132,6 +134,11 @@ class Game
 
     createjs.Ticker.addEventListener 'tick', (event) ->
       that.handleTickerTick.apply that, arguments
+
+    @addAI()
+
+  addAI: () ->
+    @hasAI = true
 
   handleTickerTick: (event) ->
     @ball.x = @ball.x + @ballDirectionX
@@ -159,6 +166,9 @@ class Game
     @ball.hitTest(@leftPaddlePts.x, @leftPaddlePts.y + paddleHeight) or
     @ball.hitTest(@leftPaddlePts.x, @leftPaddlePts.y + paddleHeight * .5)
       @ballDirectionX = @ballDirectionX * -1
+
+    if @hasAI
+      @movePaddleTo @rightPaddle, @ball.y
 
 
     @stage.update()
