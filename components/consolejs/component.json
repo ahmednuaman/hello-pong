@@ -1,7 +1,7 @@
 {
   "name": "consolejs",
   "version": "0.0.0",
-  "commit": "e02154add9a7689cb75e85cafd118a1c60197cc2",
+  "commit": "3335db1cc0c251b9e26b55bf1543742846b8a470",
   "repository": {
     "type": "git",
     "url": "git@github.com:ahmednuaman/consolejs.git"
