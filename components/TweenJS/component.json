@@ -1,0 +1,9 @@
+{
+  "name": "TweenJS",
+  "version": "0.0.0",
+  "commit": "42cd2c1894b8b969b5a1cf4b5b866a52fea6f196",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/CreateJS/TweenJS.git"
+  }
+}

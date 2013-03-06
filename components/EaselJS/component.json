@@ -1,0 +1,9 @@
+{
+  "name": "EaselJS",
+  "version": "0.0.0",
+  "commit": "f96d2443282a27a991e7f80e62689bfbff4f510f",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/CreateJS/EaselJS.git"
+  }
+}
