@@ -63,16 +63,16 @@ class Game
     @addScores()
 
   addScores: () ->
-    @scorePlayer = new createjs.Text 'Player: 0', '20px Quantico', '#ffffff'
-    @scorePlayer.textAlign = 'right'
-    @scorePlayer.x = @canvasHalfWidth - padding
-    @scorePlayer.y = padding
-    @scoreAI = new createjs.Text 'Computer: 0', '20px Quantico', '#ffffff'
-    @scoreAI.x = @canvasHalfWidth + padding
-    @scoreAI.y = padding
+    @scorePlayerTxt = new createjs.Text 'Player: 0', '20px Quantico', '#ffffff'
+    @scorePlayerTxt.textAlign = 'right'
+    @scorePlayerTxt.x = @canvasHalfWidth - padding
+    @scorePlayerTxt.y = padding
+    @scoreAITxt = new createjs.Text 'Computer: 0', '20px Quantico', '#ffffff'
+    @scoreAITxt.x = @canvasHalfWidth + padding
+    @scoreAITxt.y = padding
 
-    @stage.addChild @scorePlayer
-    @stage.addChild @scoreAI
+    @stage.addChild @scorePlayerTxt
+    @stage.addChild @scoreAITxt
     @stage.update()
 
     @addLeftPaddle()
@@ -168,9 +168,11 @@ class Game
 
     if @ball.x < 0
       @scoreAI++
+      @scoreAITxt.text = 'Computer: ' + @scoreAI
 
     if @ball.x > @canvas.width
       @scorePlayer++
+      @scorePlayerTxt.text = 'Player: ' + @scorePlayer
 
     if @ball.x < 0 or @ball.x > @canvas.width
       @ballDirectionX = ballStartDirectionX
