@@ -10,6 +10,8 @@ class Game
   padding = 20
 
   constructor: (container) ->
+    @scoreAI = 0
+    @scorePlayer = 0
     @hasAI = false
     @ballDirectionX = ballStartDirectionX
     @ballDirectionY = ballStartDirectionY
@@ -42,11 +44,11 @@ class Game
     @addCourt()
 
   addCourt: () ->
-    half = @canvas.width * .5
-    x1 = half - courtLineWidth
-    x2 = half + courtLineWidth
-    court = new createjs.Shape()
-    courtGFX = court.graphics
+    @canvasHalfWidth = @canvas.width * .5
+    x1 = @canvasHalfWidth - courtLineWidth
+    x2 = @canvasHalfWidth + courtLineWidth
+    @court = new createjs.Shape()
+    courtGFX = @court.graphics
     courtGFX.setStrokeStyle courtLineWidth
     courtGFX.beginStroke '#999999'
     courtGFX.moveTo x1, 0
@@ -55,7 +57,22 @@ class Game
     courtGFX.lineTo x2, 0
     courtGFX.endStroke()
 
-    @stage.addChild court
+    @stage.addChild @court
+    @stage.update()
+
+    @addScores()
+
+  addScores: () ->
+    @scorePlayer = new createjs.Text 'Player: 0', '20px Quantico', '#ffffff'
+    @scorePlayer.textAlign = 'right'
+    @scorePlayer.x = @canvasHalfWidth - padding
+    @scorePlayer.y = padding
+    @scoreAI = new createjs.Text 'Computer: 0', '20px Quantico', '#ffffff'
+    @scoreAI.x = @canvasHalfWidth + padding
+    @scoreAI.y = padding
+
+    @stage.addChild @scorePlayer
+    @stage.addChild @scoreAI
     @stage.update()
 
     @addLeftPaddle()
@@ -126,7 +143,7 @@ class Game
 
     @ballLastY = 0
 
-    @stage.addChild @ball
+    @stage.addChildAt @ball, (@stage.getChildIndex @court) + 1
     @stage.update()
 
     @startBallMovement()
@@ -148,6 +165,12 @@ class Game
 
     if @ball.y < ballRadius or @ball.y > @limitY
       @ballDirectionY = @ballDirectionY * -1
+
+    if @ball.x < 0
+      @scoreAI++
+
+    if @ball.x > @canvas.width
+      @scorePlayer++
 
     if @ball.x < 0 or @ball.x > @canvas.width
       @ballDirectionX = ballStartDirectionX
@@ -175,5 +198,6 @@ class Game
     @ballLastY = @ball.y
 
     @stage.update()
+
 
 game = new Game 'container'
